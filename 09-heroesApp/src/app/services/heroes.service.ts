@@ -33,4 +33,29 @@ export class HeroesService {
 
     return this.http.put(`${this.url}/heroes/${heroe.id}.json`, heroeTemp);
   }
+
+
+  getHeroes(){
+    return this.http.get(`${this.url}/heroes.json`)
+    .pipe(
+      map( this.crearArreglo )
+    );
+  }
+
+  private crearArreglo(heroesObj: { [key: string]: HeroeModel } | any): HeroeModel[] {
+    const heroes: HeroeModel[] = [];
+
+    if (heroesObj === null) {
+      return [];
+    }
+
+    Object.keys(heroesObj).forEach(key => {
+      const heroe: HeroeModel = heroesObj[key];
+      heroes.push(heroe);
+    });
+
+    return heroes;
+  }
+
+
 }
