@@ -1,9 +1,9 @@
 
 export class HeroeModel {
 
-  id:string = '';
-  nombre:string = '';
-  poder:string = '';
+  id:string | any;
+  nombre:string | any;
+  poder:string | any;
   vivo:boolean;
 
   constructor(){
