@@ -1,51 +1,51 @@
-<h1>Listado de Heroes</h1>
-
+<h1>Listado de Héroes</h1>
 <hr>
 
 <div class="row">
   <div class="col text-right">
     <button routerLink="/heroe/nuevo"
-    class="btn btn-primary">Agregar
-      <i class="fa fa-plus"></i>
+          class="btn btn-primary">
+      <i class="fa fa-plus">Agregar</i>
     </button>
   </div>
 </div>
 
 
 <table class="table mt-3 animated fadeIn faster">
-  <thead class="table-dark">
+  <thead class="thead-dark">
     <tr>
       <th scope="col">#</th>
       <th scope="col">Nombre</th>
       <th scope="col">Poder</th>
-      <th scope="col">Vivo</th>
+      <th scope="col">vivo</th>
       <th scope="col">Tools</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let heroe of heroes; let i = index">
-      <th scope="row">{{i + 1}}</th>
+      <th scope="row">{{ i + 1 }}</th>
       <td>{{ heroe.nombre}}</td>
-      <td>{{heroe.poder}}</td>
+      <td>{{ heroe.poder}}</td>
       <td>
 
-        <label *ngIf="heroe.vivo" class="badge badge-success">Vivo</label>
-        <label *ngIf="!heroe.vivo" class="badge badge-danger">Muerto</label>
+        <label *ngIf="heroe.vivo" class="badge badge-success">vivo</label>
+        <label *ngIf="!heroe.vivo" class="badge badge-success">muerto</label>
+
       </td>
       <td>
 
-
         <button class="btn btn-info mr-1"
-        [routerLink]="['/heroe', heroe.id]">
+                [routerLink]="['/heroe', heroe.id]">
           <i class="fa fa-pen"></i>
         </button>
-        <button class="btn btn-danger ">
+
+        <button class="btn btn-danger"
+                (click)="borrarHeroe( heroe, i)">
           <i class="fa fa-trash"></i>
         </button>
 
-
       </td>
-    </tr>
+      </tr>
   </tbody>
 </table>
 
@@ -53,16 +53,16 @@
 <div class="alert alert-warning text-center mt-3">
   <h4 class="alert-heading">No hay registros</h4>
   <p>
-    <i class="fa fa-exclamation  fa-2x"></i>
+    <i class="fa fa-exclamation fa-2x"></i>
   </p>
 </div>
 
 <div class="alert alert-info text-center mt-3">
-  <h4 class="alert-heading">Cargando</h4>
+  <h4 class="alert-heading">Cargando  </h4>
   <p>
     <i class="fa fa-sync-alt fa-spin fa-2x"></i>
   </p>
   <p class="mb-0">
-Espere porfavor
+    Espere por favor
   </p>
 </div>

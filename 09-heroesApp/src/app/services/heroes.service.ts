@@ -1,65 +1,75 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
 import { HeroeModel } from '../models/heroe.model';
-import { map } from 'rxjs/operators';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HeroesService {
 
-  private url = 'https://heroes-88032-default-rtdb.firebaseio.com';
+  private url = 'https://crud-4cf36-default-rtdb.firebaseio.com';
 
-  constructor( private http: HttpClient) { }
+  constructor( private http: HttpClient ) { }
 
-  crearHeroe( heroe: HeroeModel){
+  crearHeroe ( heroe: HeroeModel){
+
     return this.http.post(`${ this.url }/heroes.json`, heroe)
     .pipe(
-      map((resp: any) =>{
-        heroe.id = resp.name;
+      map((resp:any) => {
+        heroe.id= resp.name;
         return heroe;
       })
     );
   }
 
-  actualizarHeroe(heroe: HeroeModel){
+  actualizarHeroe( heroe: HeroeModel){
 
-    const heroeTemp = {
-      ...heroe
-    };
+   const heroeTemp = {
+    id: heroe.id,
+    nombre: heroe.nombre,
+    poder: heroe.poder,
+    vivo: heroe.vivo
+   };
 
-    delete heroeTemp.id;
 
+    return this.http.put(`${ this.url}/heroes/${heroe.id}.json`, heroeTemp);
 
-    return this.http.put(`${this.url}/heroes/${heroe.id}.json`, heroeTemp);
   }
 
-  getHeroe( id: string ){
-    return this.http.get(`${ this.url }/heroes/${ id }.json`)
+  borrarHeroe( id: string){
+    return this.http.delete(`${ this.url }/heroes/${ id }.json`);
+
   }
 
+  getHeroe( id:string|null){
+    return this.http.get(`${ this.url }/heroes/${ id }.json`);
+  }
 
   getHeroes(){
-    return this.http.get(`${this.url}/heroes.json`)
+    return this.http.get(`${ this.url }/heroes.json`)
     .pipe(
-      map( this.crearArreglo )
+      map( this.crearArreglo)
     );
+
   }
 
   private crearArreglo(heroesObj: { [key: string]: HeroeModel } | any): HeroeModel[] {
-    const heroes: HeroeModel[] = [];
 
-    if (heroesObj === null) {
-      return [];
-    }
+    const heroes: HeroeModel[]= [];
 
-    Object.keys(heroesObj).forEach(key => {
+    if (heroesObj === null ){return [];}
+
+    Object.keys (heroesObj).forEach( key =>{
       const heroe: HeroeModel = heroesObj[key];
+      heroe.id = key;
+
       heroes.push(heroe);
-    });
+    })
+
 
     return heroes;
-  }
+}
 
 
 }
